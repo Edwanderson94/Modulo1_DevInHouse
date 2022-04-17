@@ -1,0 +1,150 @@
+-- Aula dia 11/02/2022
+-- Plantão de Dúvidas
+
+-- Inserindo dados
+INSERT INTO pizzas (bordas_id, massas_id) VALUES (1, 2);
+INSERT INTO pizza_sabor (pizza_id, sabores_id) VALUES (3, 2), (3,3);
+INSERT INTO pedidos (pizzas_id, status_id) VALUES (3,1); 
+
+SELECT * FROM massas
+INSERT INTO massas (id, tipo) VALUES (2,'Cheddar');
+INSERT INTO pedidos (id, pizzas_id) VALUES (1,1);
+
+-- Consultando dados com inner join
+SELECT pedidos.id, bordas.tipo, massas.tipo, pizzas.id, sabores.nome
+FROM pedidos
+INNER JOIN pizzas ON pedidos.pizzas_id = pizzas.id
+INNER JOIN massas ON pizzas.massas_id = massas.id 
+INNER JOIN bordas ON pizzas.bordas_id = bordas.id
+INNER JOIN pizza_sabor ON pizzas.id = pizza_sabor.pizza_id
+INNER JOIN sabores ON pizza_sabor.sabores_id = sabores.id
+
+SELECT * FROM pizza_sabor
+
+-- EXERCICIOS ---------------------------------------------------
+
+
+-- Exercicio 1 
+SELECT * 
+FROM tabelaA
+RIGHT JOIN tabelaB ON tabelaA.nome = tabelaB.nome
+ORDER BY tabelaA.nome 
+
+-- Exercicio 2
+SELECT *
+FROM tabelaA
+FULL JOIN tabelaB ON tabelaA.nome = tabelaB.nome
+WHERE tabelaB.nome IS null OR tabelaA.nome IS null;
+
+-- Exercicio 3
+
+-- Criando a tabela produtos
+CREATE TABLE produto (
+	id serial PRIMARY KEY,
+	nomeprod varchar (20) NOT null,
+	tamanho char (3) NOT null, 
+	preco int NOT null CHECK (preco > 50)
+);
+
+-- Criando a tabela pedidos
+CREATE TABLE pedidos_roupas (
+	id serial PRIMARY KEY,
+	data_pedido date NOT null,
+	endereco_entrega varchar (50) NOT null,
+	forma_pagamento varchar (30) NOT null
+);
+
+-- Criando a tabela pedido_produto
+CREATE TABLE pedido_produto (
+	id serial PRIMARY KEY,
+	pedido_id int NOT null,
+	produto_id int NOT null,
+	FOREIGN KEY (pedido_id) REFERENCES pedidos_roupas (id),
+	FOREIGN KEY (produto_id) REFERENCES produto (id)
+);
+
+---- INSERINDO DADOS NAS TABELAS CRIADAS ----
+-- inserção de notação conjunto
+INSERT INTO produto (nomeprod, tamanho, preco) VALUES ('Camisa Linux', 'P', 60), ('Camisa Windows', 'G', 70);
+
+-- Teste de inserir produto abaixo de 50 reais, padrão definido na criação.
+INSERT INTO produto (nomeprod, tamanho, preco) VALUES ('Camisa Linux', 'P', 40);
+-- Irá apresentar erro pois é abaixo da condição de 50 reais.
+
+-- inserção de notação individual
+INSERT INTO produto (nomeprod, tamanho, preco) VALUES ('Camisa Docker', 'M', 55);
+
+-- inserir um pedido novo 
+INSERT INTO pedidos_roupas (data_pedido, endereco_entrega, forma_pagamento) VALUES ('20220211', 'Rua Orense 167', 'Credito'),
+																		   ('20210220', 'Estrada das Lágrimas 15', 'Debito'),
+																		   ('20220204', 'Praça São João 167', 'Debito'),
+																		   ('20220106', 'Rua Norte 17', 'Credito');
+
+-- Inserir um pedido de produto 
+INSERT INTO pedido_produto (idpedido, idproduto) VALUES (2,2)
+INSERT INTO pedido_produto (idpedido, idproduto) VALUES (2,1), (1,2), (1,4);
+
+-- Consultando as tabelas 
+SELECT * FROM produto
+SELECT * FROM pedidos_roupas
+SELECT * FROM pedido_produto
+
+SELECT pedidos_roupas.id, pedidos_roupas.data_pedido,  pedidos_roupas.endereco_entrega, pedidos_roupas.forma_pagamento,
+		produto.nomeprod, produto.tamanho, produto.preco
+FROM pedidos_roupas
+INNER JOIN pedido_produto ON pedidos_roupas.id = pedido_produto.id
+INNER JOIN produto ON pedido_produto.idpedido = produto.id
+
+-- Exercicio 4
+-- Inserindo alunos na notação individual
+INSERT INTO aluno (nome, endereco, idade) VALUES ('Edwanderson', 'Rua Mario Traschi', 27);
+INSERT INTO aluno (nome, idade) VALUES ('Rosangela', 64);
+INSERT INTO aluno (nome, endereco, idade) VALUES ('Luiz', 'Rua Mario Tosco', 67);
+
+-- Inserindo disciplina na notação em conjunto
+INSERT INTO disciplina (nome_disc, carga_horaria) VALUES ('Linux Básico', 20), 
+														 ('Docker Básico', 30),
+														 ('Banco de Dados - Fundamentos', 35),
+														 ('Introdução a Lógica de Programação', 10);
+
+-- Exercicio 5
+-- Identificar a média de idades dos alunos
+SELECT AVG (idade) FROM alunos;
+
+-- Exercicio 6
+-- Alterar a idade do aluno
+UPDATE aluno SET idade = 27 WHERE nome = 'Luiz Ricardo Soares';
+
+-- Exercicio 7
+-- Atualizar endereço da aluna
+UPDATE aluno 
+SET endereco = 'Av. Norte, 350, Recife-PE'
+WHERE id_aluno = 2;
+
+-- Exercicio 8
+SELECT * FROM aluno WHERE nome LIKE '%silva%' AND idade > 21;
+
+-- Exercicio 9
+-- Adicionando a coluna Data_Nascimento
+ALTER TABLE aluno ADD data_nascimento date;
+
+-- Exercicio 10 
+-- Alterar o tipo de dado da coluna
+ALTER TABLE aluno ALTER COLUMN data_nascimento varchar(8);
+
+-- Exercicio 11
+DELETE FROM nome_tabela WHERE id = 4;
+ALTER TABLE nome_tabela DROP COLUMN datapedido;
+
+-- DESAFIO
+-- sintaxe para lembrar do group by e having 
+SELECT * FROM tabela WHERE id > 0 GROUP BY funcionarios HAVING salario > 3500; 
+-- Consultando os empregados
+SELECT * FROM empregado
+
+-- Consultando os salarios
+SELECT MIN (salario), MAX (salario), AVG (salario), supervisor
+FROM empregado
+GROUP BY supervidor 
+HAVING AVG (salario) > 3500;
+

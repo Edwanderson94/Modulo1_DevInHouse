@@ -1,0 +1,67 @@
+-- Query para que possamos popular o banco (Exercicio 9).
+INSERT INTO 
+	cargos (nome_cargo) 
+VALUES 
+	('Analista de Serviços I'),
+	('Analista de Serviços II'),
+	('Lider de Equipe'),
+	('Analista de Dados I'),
+	('Analista de Dados II'),
+	('Analista de Infraestrutura I'),
+	('Analista de Infraestrutura II'),
+	('Administrador de Banco de Dados'),
+	('Programador Junior'),
+	('Programador Pleno'),
+	('Programador Sênior');
+	
+INSERT INTO 
+	empregados (nome_emp,cidade_emp,idade_emp,id_cargo,id_gestor) 
+VALUES 
+	('Leonardo Vieira','Porto Alegre',25,5,3),
+	('Antonio Nunes','Floripa',28,6,2),
+	('Israel Fernandes','Goiânia',30,7,2),
+	('Francisco Vieira','Itapema',22,8,4),
+	('Edwanderson Luiz','São Bernardo do Campo',27,11,4),
+	('Ana Lidia','São Caetano',27,10,4),
+	('Bruno Couto','São Pedro',29,9,4),
+	('Guilherme Couto','Santo André',32,5,4),
+	('Claudio Duarte','Cruzeiro',41,6,4),
+	('Anderson Silva','Brasilia',42,9,3);
+
+INSERT INTO 
+	gestores (nome_gestor)  
+VALUES 
+	('Edwanderson Pereira'),
+	('Thamires Reis'),
+	('Giovana Silva'),
+	('Ana Paula'),
+	('Luciamara Silva'),
+	('Luciano Pereira'),
+	('Julio Cardoso'),
+	('Genivaldo Silva'),
+	('Bruno Santos'),
+	('Guilherme das Oliveiras'),
+	('Silvana Peixe');
+	
+SELECT * 
+FROM cargos 
+
+
+
+SELECT 
+	a.cargos.id_cargos, 
+	a.cargos.nome_cargo, 
+	b.empregados.id_emp,
+	b.empregados.nome_emp,
+	c.gestores.id_gestor,
+	c.gestores.nome_gestor
+FROM 
+	a.cargos
+INNER JOIN empregados 
+	b.empregados
+ON
+	a.cargos.id_cargos = b.empregados.id_emp
+INNER JOIN gestores
+	c.gestores
+ON
+	a.cargos.id_cargos = c.gestores.id_gestor;

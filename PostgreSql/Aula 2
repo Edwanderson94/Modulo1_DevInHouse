@@ -1,0 +1,54 @@
+-- Aula 2 | 01/02/2022
+
+-- Selecionando a tabela 
+SELECT *
+FROM 
+	alunos;
+
+-- Atualizando um dado baseado no outro
+UPDATE alunos
+SET idadeAluno = 25
+WHERE idAluno = 4;
+
+-- Ordenando os valores
+SELECT * FROM alunos ORDER BY idAluno ASC;
+SELECT * FROM alunos ORDER BY idAluno DESC;
+
+-- Selecionando alunos
+SELECT * FROM alunos WHERE idAluno = 22;
+
+-- Selecionando alunos apenas com dados especificos
+SELECT idAluno, nomeAluno FROM alunos WHERE idAluno = 12;
+
+SELECT * FROM alunos WHERE idAluno in (13,5,7,9,20);
+
+-- Selecionar o nome do aluno com o L no inicio do nome 
+SELECT * FROM alunos WHERE nomeAluno LIKE '%L';
+
+-- Selecionar o nome do aluno com o a no final do nome 
+SELECT * FROM alunos WHERE nomeAluno LIKE '%_a';
+
+-- Selecionar o idadeAluno maior na tabela alunos
+SELECT MAX (idadeAluno) FROM alunos;
+
+-- Seleconar o idadeAluno minimo na tabela alunos
+SELECT MIN (idadeAluno) FROM alunos;
+
+-- Selecionar a média da idadeAluno na tabela alunos
+SELECT AVG (idadeAluno) FROM alunos;
+
+-- Somar dados do idadeAluno na tabela alunos
+SELECT SUM (idadeAluno) FROM alunos;
+
+-- Contabilizar o idAluno nas tabelas de alunos
+SELECT COUNT (idAluno) FROM alunos;
+
+--
+SELECT idAluno as ID, nomeAluno as NOME, idadeAluno as IDADE FROM alunos;
+
+
+
+
+
+
+

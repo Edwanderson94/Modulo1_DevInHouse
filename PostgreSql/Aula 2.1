@@ -1,0 +1,48 @@
+-- Criação da tabela Aluno
+CREATE TABLE aluno (
+	idAluno serial NOT NULL PRIMARY KEY,
+	nomeAluno VARCHAR (100) NOT NULL,
+	idadeAluno INTEGER,
+	cidadeAluno VARCHAR (40),
+	estadoAluno CHAR(2)
+);
+
+-- Criação da tabela Cursos
+CREATE TABLE curso (
+	idCurso SERIAL NOT NULL,
+	nomeCurso VARCHAR (40),
+	idAluno INTEGER, 
+	PRIMARY KEY (idCurso), 
+	FOREIGN KEY (idAluno) REFERENCES aluno (idAluno)
+);
+
+-- Inserindo alunos na tabela aluno
+INSERT INTO aluno (nomeAluno,idadeAluno,cidadeAluno,estadoAluno)
+VALUES ('Gerald',31,'Floripa','SC'),('Mark', 24,'Palhoça','SC'),('William',35,'Porto Alegre','RS');
+
+-- Inserindo informações na tabela curso
+INSERT INTO curso (nomeCurso,idAluno)
+VALUES ('Programação',1),('Design',2),('Marketing',3);
+
+-- Selecionar a tabela aluno 
+SELECT * FROM aluno;
+
+-- Selecionar a tabela curso 
+SELECT * FROM curso;
+
+-- Execução de inner join através da chave primaria da tabela aluno e a chave estrangeira da tabela curso 
+SELECT 
+	aluno.idAluno as ID,
+	aluno.nomeAluno as NOME,
+	aluno.idadeAluno as ALUNO,
+	curso.nomeCurso as CURSO
+-- Tabela que estou relacionando com a tabela curso
+FROM 
+	aluno
+-- Tabela que estou relacionando com a tabela aluno
+INNER JOIN 
+	curso
+-- Aqui informamos qual o dado é igual nas duas tabelas
+ON 
+	aluno.idAluno = curso.idAluno;
+	

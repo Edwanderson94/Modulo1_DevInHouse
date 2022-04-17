@@ -1,0 +1,78 @@
+-- Queries utilizadas na aula 4 (07-02-2022)
+-- Parei no tempo 1:59:19 da aula 
+-- Criar tabelas cidades
+CREATE TABLE cidades (nome text, populacao float, altitude int);
+
+-- Consultar a tabela criada 
+SELECT * FROM cidades
+
+-- Criar tabelas capitais com herança da tabela cidades
+CREATE TABLE capitais (estado char(2) )
+INHERITS (cidades);
+
+-- Consultar a tabela criada
+SELECT * FROM capitais
+
+-- Criando a tabela sabores e adicionando o auto incremental SERIAL 
+-- em outros bancos pode ser o comando AUTOINCREMENT, o SERIAL é uma 
+-- junção de not null + autoincrement e é do tipo INTEGER pois é do tipo 
+-- inteiro.
+
+-- As duas formas estão corretas são apenas questões de notação!
+
+CREATE TABLE sabores (id serial PRIMARY KEY, nome varchar(100));
+CREATE TABLE sabores (id serial, nome varchar(100), PRIMARY KEY (id));
+
+-- Consultando a tabela criada
+SELECT * FROM sabores
+
+-- Criação da tabela Massas 
+CREATE TABLE massas (id serial PRIMARY KEY, tipo varchar (100))
+
+-- Consulta da tabela
+SELECT * FROM massas 
+
+-- Criação da tabela bordas
+CREATE TABLE bordas (id serial PRIMARY KEY, tipo varchar (100))
+
+SELECT * FROM bordas
+
+-- Criação da tabela status
+CREATE TABLE status (id serial PRIMARY KEY, tipo varchar (100))
+
+SELECT * FROM status
+
+-- Criando a tabela Pizzas com referencias de outras tabelas
+CREATE TABLE pizzas (
+	id serial PRIMARY KEY,
+	bordas_id serial references bordas (id),
+	massas_id serial references massas (id)
+);
+-- Segunda notação para a criação: 
+CREATE TABLE pizzas (
+	id serial PRIMARY KEY,
+	bordas_id serial,
+	massas_id serial,
+	FOREIGN KEY (borda_id) REFERENCES massas (id),
+	FOREIGN KEY (massas_id) REFERENCES massas (id)
+);
+
+SELECT * FROM pizzas
+
+-- Criar tabela PIZZA SABOR
+CREATE TABLE pizza_sabor (
+	id serial not null PRIMARY KEY,
+	pizza_id serial, 
+	sabores_id serial, 
+	FOREIGN KEY (pizza_id) REFERENCES pizzas (id),
+	FOREIGN KEY (sabores_id) REFERENCES sabores (id)
+);
+
+-- Criação da tabela pedidos
+CREATE TABLE pedidos (
+	id serial PRIMARY KEY,
+	pizzas_id serial references pizzas(id),
+	status_id serial references pizzas(id)
+);
+
+

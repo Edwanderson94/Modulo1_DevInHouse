@@ -1,0 +1,12 @@
+SELECT 
+	aluno.idAluno, 
+	aluno.nomeAluno, 
+	aluno.idadeAluno, 
+	curso.nomeCurso
+FROM 
+	aluno
+INNER JOIN
+	curso
+ON
+	aluno.idAluno = curso.idAluno;
+	

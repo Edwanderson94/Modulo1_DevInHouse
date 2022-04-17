@@ -1,0 +1,85 @@
+-- Aula dia 07/02/2022
+-- Criando a tabela cidades
+CREATE TABLE cidades 
+	(nome text, populacao float, atitude int);
+
+-- Criando a tabela capitais
+-- Herdando atributos da tabela cidades através do inherits
+CREATE TABLE capitais (estado char(2)) INHERITS (cidades);
+
+-- Selecionando a tabela cidades
+SELECT * FROM cidades;
+
+-- Selecionando a tabela capitais
+SELECT * FROM capitais;
+
+-- Criando a tabela sabores
+-- Serial: é um auto incremental o comando "Serial" é especial do postgrees,
+-- é uma junção de not null com auto increment.
+CREATE TABLE sabores (id serial, nome varchar(100));
+-- Adicionando uma primary key na tabela sabores
+ALTER TABLE sabores ADD PRIMARY KEY (id);
+
+-- Criando a tabela borda
+CREATE TABLE bordas (id serial PRIMARY KEY, tipo varchar(100));
+
+-- Criando a tabela massa
+CREATE TABLE massa (id serial PRIMARY KEY, tipo varchar(100));
+
+-- Criando a tabela status
+CREATE TABLE status (id serial PRIMARY KEY, tipo varchar(100));
+
+-- Criando a tabela pizzas
+CREATE TABLE pizza (
+	id serial PRIMARY KEY,
+	borda_id serial REFERENCES bordas (id),
+	massa_id serial REFERENCES massa (id)
+);
+
+-- Criar tabela de pizza sabor
+CREATE TABLE pizza_sabor (
+	id serial PRIMARY KEY,
+	pizzas_id serial REFERENCES pizza(id),
+	sabores_id serial REFERENCES sabores(id)
+);
+
+-- Alterar a tabela pedidos adicionando o nome cliente
+ALTER TABLE pedidos ADD nome cliente varchar (100);
+
+-- Alterar tabela pedidos apagando a coluna nome cliente 
+ALTER TABLE pedidos DROP nome cliente; 
+
+-- Alterar a tabela adicionando a data do pedido
+ALTER TABLE pedidos ADD data_pedido date;
+
+-- Consultar a tabela
+SELECT * FROM pedidos
+
+-- Excluir a tabela sabores
+-- Não é possivel excluir porque existe Foreing key 
+DROP TABLE sabores
+
+-- Excluir banco de dados
+DROP DATABASE devin-semana8
+
+-- Inserção de dados dentro da tabela sabores
+INSERT INTO sabores (nome) VALUES ('Calabresa'); 
+INSERT INTO sabores (nome) VALUES ('4 Queijos');
+INSERT INTO sabores (nome) VALUES ('Portuguesa');
+INSERT INTO sabores (nome) VALUES ('Bacon');
+-- Consultando a tabela 
+SELECT * FROM sabores
+-- Inserindo vários valores dentro da mesma tabela
+INSERT INTO sabores (nome) VALUES ('A moda da casa'),
+('Mussarela'), ('Brócolis');
+
+-- Alterando dados inseridos errado
+UPDATE sabores
+SET nome = 'Brócolis' 
+WHERE id = 7;
+
+-- Inserção de dados dentro da tabela massas 
+INSERT INTO massas (tipo) VALUES ('Tradicional');
+
+-- Consultando a tabela massas 
+SELECT * FROM massas
